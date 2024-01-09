@@ -1,5 +1,13 @@
 import * as Yup from 'yup'
+import connection from '../database/database'
+import criarUsuario from '../database/models/CriarUsuario'
 
+
+connection.authenticate().then(()=>{
+    console.log('connection successs');
+}).catch((err)=>{
+    console.log(err);
+})
 class CreateAccount {
 
     async store(req, res) {

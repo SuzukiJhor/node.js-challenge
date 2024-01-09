@@ -28,3 +28,9 @@ const criarUsuario = database.define('createAccount', {
     }
 
 })
+
+criarUsuario.async({force: false}).then(()=>{
+    console.log('table created');
+})
+
+module.exports = criarUsuario
