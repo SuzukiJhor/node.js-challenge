@@ -1,36 +1,36 @@
 const Sequelize = require('sequelize')
-const database = require('./database')
+const database = require('../database')
 
 const criarUsuario = database.define('createAccount', {
     nome: {
         type: Sequelize.STRING,
-        allownull: false
+        allowNull: false
     },
     sobrenome: {
         type: Sequelize.STRING,
-        allownull: false
+        allowNull: false
     },
     cpf: {
         type: Sequelize.STRING,
-        allownull: false
+        allowNull: false
     },
     cnpj: {
         type: Sequelize.STRING,
-        allownull: false
+        allowNull: false
     },
     email: {
         type: Sequelize.STRING,
-        allownull: false
+        allowNull: false
     },
     senha: {
         type: Sequelize.STRING,
-        allownull: false
+        allowNull: false
     }
 
 })
 
-criarUsuario.async({force: false}).then(()=>{
-    console.log('table created');
+criarUsuario.sync({force: false}).then(()=>{
+    'tabela criada'
 })
 
 module.exports = criarUsuario

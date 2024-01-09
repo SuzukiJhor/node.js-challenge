@@ -4,7 +4,7 @@ import criarUsuario from '../database/models/CriarUsuario'
 
 
 connection.authenticate().then(()=>{
-    console.log('connection successs');
+    console.log('conexão com sucesso!');
 }).catch((err)=>{
     console.log(err);
 })
@@ -28,5 +28,28 @@ class CreateAccount {
         }
 
         const {nome, sobrenome, cpf, cnpj, email, senha} = req.body
+
+        const usuarioExistente = await criarUsuario.findOne({
+            where: {email},
+            where: {cpf}
+        })
+
+        if (usuarioExistente) {
+            return res.status(200).json({error: 'Esse usuario ja existe, tente novamente com outro usuário'})
+        }
+
+        criarUsuario.create({
+            nome: nome,
+            sobrenome: sobrenome,
+            cpf: cpf,
+            cnpj: cnpj,
+            email: email,
+            senha: senha
+            
+        })
+
+        return res.status(200).json({message: 'Usuario criado com sucesso!'})
     }
 }
+
+export default new CreateAccount()
