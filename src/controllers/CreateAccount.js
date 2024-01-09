@@ -38,6 +38,8 @@ class CreateAccount {
             return res.status(200).json({error: 'Esse usuario ja existe, tente novamente com outro usuário'})
         }
 
+        cpf.length ? console.log('cpf válido') : res.status(400).json({message: 'cpf inválido'});
+
         criarUsuario.create({
             nome: nome,
             sobrenome: sobrenome,
