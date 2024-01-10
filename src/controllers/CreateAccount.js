@@ -18,7 +18,7 @@ class CreateAccount {
             cpf: Yup.string().required(),
             cnpj: Yup.string().notRequired(),
             email: Yup.string().required(),
-            senha: Yup.string().required()
+            senha: Yup.string().required().min()
         })
 
         try {
