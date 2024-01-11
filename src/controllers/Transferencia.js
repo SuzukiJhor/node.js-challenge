@@ -15,14 +15,14 @@ class Transferencia {
 
         if (usuarioEnviou.saldo < valor) return res.status(400).json({error: 'Nao tem saldo Suficiente'}) 
 
-        const usuarioReceber = await Info.finOne({
-            where: {id:receber}
+        const usuarioReceber = await Info.findOne({
+            where: {id: receber}
         })
 
         if (!usuarioReceber) return res.status(400).json({error: "usuario não encontrado, transferencia mal sucedida"})
         
         usuarioEnviou.saldo -= valor
-        usuarioReceber += valor
+        usuarioReceber.saldo += valor
 
         await usuarioEnviou.save()
         await usuarioReceber.save()
