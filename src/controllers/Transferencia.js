@@ -1,4 +1,5 @@
 const Info = require('../database/models/Info')
+
 const CriarUsuario = require('../database/models/CriarUsuario')
 
 class Transferencia {
@@ -6,9 +7,11 @@ class Transferencia {
     async update(req, res) {
         const { enviar, receber, valor } = req.body
 
-        const usuarioEnviou = await Info.finOne({
+        const usuarioEnviou = await Info.findOne({
             where: {id: enviar}
         })
+
+        if (!usuarioEnviou) return res.status(400).json({error: "usuario que envia não encontrado, transferencia mal sucedida"})
 
         if (usuarioEnviou.saldo < valor) return res.status(400).json({error: 'Nao tem saldo Suficiente'}) 
 
@@ -23,6 +26,8 @@ class Transferencia {
 
         await usuarioEnviou.save()
         await usuarioReceber.save()
+
+        return res.status(201).json({message: `Foi transferido ${valor} para o usuario ${receber}`})
     }
 }
 
