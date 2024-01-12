@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const database = require('../database')
 
-const criarUsuario = database.define('createAccount', {
+const criarUsuario = database.define('UserController', {
     nome: {
         type: Sequelize.STRING,
         allowNull: false
