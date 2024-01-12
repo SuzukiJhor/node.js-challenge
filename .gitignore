@@ -1,5 +1,35 @@
-node_modules
-/node_modules
-security.js
-password.js
-database.js
+# Diretórios
+node_modules/
+dist/
+coverage/
+.build/
+.cache/
+
+# Arquivos
+.env
+.env.local
+.env.*.local
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+.pnp.*
+*.pnp.*
+
+# Logs
+logs
+*.log
+
+# Output do VSCode
+.vscode/
+
+# Arquivos de configuração
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+coverage/
+*.config.js
+
+# Outros
+.DS_Store
+Thumbs.db
