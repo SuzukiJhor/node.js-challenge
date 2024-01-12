@@ -1,5 +1,7 @@
 import app from "./app";
 
-app.listen(3005, ()=>{
+const devPort = process.env.DEV_PORT
+
+app.listen(devPort, ()=>{
     console.log('servidor online');
 })

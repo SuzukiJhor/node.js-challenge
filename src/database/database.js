@@ -1,5 +1,5 @@
+require('dotenv').config()
 const Sequelize = require('sequelize')
-const dotenv = require('dotenv').config()
 
 const dbHost = process.env.DB_HOST
 const dbName = process.env.DB_NAME
