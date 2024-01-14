@@ -2,11 +2,11 @@ import * as Yup from 'yup'
 
 class UserValidation {
 
-    async validationRegister() {
-        
+    async validationRegister(data) {
+      
         const schema = Yup.object().shape({
             name: Yup.string().required(),
-            lastname: Yup.string().required(),
+            lastname: Yup.string().notRequired(),
             cpf: Yup.string().required(),
             cnpj: Yup.string().notRequired(),
             email: Yup.string().required(),
@@ -16,10 +16,10 @@ class UserValidation {
         try {
             await schema.validate(data, { abortEarly: false })
         } catch (err) {
-            return {sucess: false, error:err.errors}
+            return {success: false, error:err.message}
         }
-
-        return {sucess: true}
+        
+        return {success: true}
     }
 }
 
