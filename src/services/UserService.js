@@ -1,17 +1,17 @@
-import createUser from "../database/models/createUser";
+import User from "../database/models/User";
 import UserValidation from "../validators/UserValidation";
 
 class UserService {
-    async createUser(user) {
+    async create(user) {
         const userIsValid = await UserValidation.validationRegister(user);
 
         if (!userIsValid.success) {
             return { error: userIsValid.error };
         }
 
-        const { name, lastname, cpf, cnpj, email, password } = user;
+        const { name, lastname, cpf, cnpj, email, password, businessman } = user;
 
-        const existingUser = await createUser.findOne({
+        const existingUser = await User.findOne({
             where: { email },
             where: { cpf },
         });
@@ -28,13 +28,14 @@ class UserService {
         }
 
         try {
-            await createUser.create({
+            await User.create({
                 name,
                 lastname,
                 cpf,
                 cnpj,
                 email,
                 password,
+                businessman
             });
         
             return { success: true };

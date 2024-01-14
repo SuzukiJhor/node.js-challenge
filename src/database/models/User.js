@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const database = require('../database')
 
-const createUser = database.define('usuario', {
+const User = database.define('usuario', {
     name: {
         type: Sequelize.STRING,
         allowNull: false
@@ -25,12 +25,16 @@ const createUser = database.define('usuario', {
     password: {
         type: Sequelize.STRING,
         allowNull: false
+    },
+    businessman: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false
     }
 
 })
 
-createUser.sync({force: false}).then(()=>{
+User.sync({force: false}).then(()=>{
     'table created'
 })
 
-module.exports = createUser
+module.exports = User

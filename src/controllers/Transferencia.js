@@ -1,13 +1,11 @@
-const Info = require('../database/models/Info')
-
-const createUser = require('../database/models/createUser')
+const User = require('../database/models/User')
 
 class Transferencia {
 
     async update(req, res) {
         const { enviar, receber, valor } = req.body
 
-        const usuarioEnviou = await Info.findOne({
+        const usuarioEnviou = await User.findOne({
             where: {id: enviar}
         })
 

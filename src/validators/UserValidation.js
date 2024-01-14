@@ -10,7 +10,8 @@ class UserValidation {
             cpf: Yup.string().required(),
             cnpj: Yup.string().notRequired(),
             email: Yup.string().required(),
-            password: Yup.string().required().min(4)
+            password: Yup.string().required().min(4),
+            businessman: Yup.bool().required()
         })
 
         try {
