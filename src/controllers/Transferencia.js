@@ -1,6 +1,6 @@
 const Info = require('../database/models/Info')
 
-const CriarUsuario = require('../database/models/CriarUsuario')
+const createUser = require('../database/models/createUser')
 
 class Transferencia {
 
