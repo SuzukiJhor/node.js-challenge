@@ -1,7 +1,7 @@
 
 class AccountValidation {
 
-    async validation() {
+    async validation(data) {
 
         const schema = Yup.object().shape({
             accoountId: Yup.bool().required(),
@@ -21,3 +21,5 @@ class AccountValidation {
         
     }
 }
+
+export default new AccountValidation()
