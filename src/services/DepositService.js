@@ -21,7 +21,7 @@ class DepositService {
         if (!existingUser) {
             return {
                 error:
-                    "the user associated with this account does not exist. Please try again with a account different",
+                    "the user associated with this account does not exist. Please try again with a account ID different",
             };
         }
 
@@ -49,7 +49,9 @@ class DepositService {
             return { erro: "The value don't to be zero"}
         }
 
-        
+        existingAccountUser.value += value
+
+        return { sucess: true }
 
     }
 }
