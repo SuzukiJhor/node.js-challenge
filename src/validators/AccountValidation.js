@@ -4,7 +4,7 @@ class AccountValidation {
     async validation(data) {
 
         const schema = Yup.object().shape({
-            userId: Yup.bool().required(),
+            userId: Yup.number().required(),
             value: Yup.string().required(),
             cpf: Yup.string().required(),
             cnpj: Yup.string().notRequired(),
