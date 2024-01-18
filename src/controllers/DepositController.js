@@ -9,7 +9,6 @@ connection.authenticate().then(() => {
 
 class DepositController {
     async store(req, res) {
-
         const deposit = req.body
 
         const newDeposit = await DepositService.create(deposit)

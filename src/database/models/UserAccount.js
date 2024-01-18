@@ -11,10 +11,6 @@ const UserAccount = connection.define('usuarioConta', {
     userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {         
-            model: 'usuario',
-            key: 'id'
-          }
     },
     value: {
         type: Sequelize.FLOAT,
@@ -26,11 +22,10 @@ const UserAccount = connection.define('usuarioConta', {
     },
     cnpj: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
     email: {
         type: Sequelize.STRING,
-        allowNull: false
     },
     
 });
@@ -38,3 +33,4 @@ const UserAccount = connection.define('usuarioConta', {
 UserAccount.sync({force: false})
 
 module.exports = UserAccount
+
