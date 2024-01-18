@@ -1,6 +1,7 @@
 import AccountValidation from '../validators/AccountValidation'
 import UserAccount from '../database/models/UserAccount';
 import User from '../database/models/User';
+const { Op } = require('sequelize');
 
 class DepositService {
     async create(data) {
@@ -13,8 +14,12 @@ class DepositService {
         const { userId, value, cpf, cnpj, email } = data
 
         const existingUser = await User.findOne({
-            where: { id: userId },
-            where: { cpf },
+            where: {
+                [Op.and]: [
+                    { id: userId },
+                    { cpf }
+                ]
+            }
         });
 
         if (!existingUser) {
@@ -26,19 +31,18 @@ class DepositService {
 
         const existingAccountUser = await UserAccount.findOne({
             where: { userId },
-            where: { cpf }
         })
-
+       
         if (!existingAccountUser) {
             try {
                 await UserAccount.create({
                    userId: existingUser.id,
-                   value,
-                    cpf: existingUser.cpf,
-                    cnpj,
-                    email
+                   value: value ?? null,
+                    cpf: cpf ?? null,
+                    cnpj: cnpj ?? null,
+                    email: email ?? null
                 });
-            
+                return { success: true , message: "Account create successfully!"}            
             } catch (error) {
                 return { success: false, error: error.message };
             }
@@ -47,8 +51,15 @@ class DepositService {
         if (value == '0') {
             return { erro: "The value don't to be zero"}
         }
+    
         existingAccountUser.value += value
-        return { sucess: true , message: "Account create successfully!"}
+
+        try {
+            await existingAccountUser.save();
+            return { success: true, message: "Update successful" };
+        } catch (error) {
+            return { success: false, error: error.message };
+        }
     }
 }
 
