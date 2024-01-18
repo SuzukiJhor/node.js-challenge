@@ -2,10 +2,19 @@ const { Sequelize } = require("sequelize")
 const connection = require('../database')
 
 const UserAccount = connection.define('usuarioConta', {
- 
-    contaId: {
+    id: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true
+      },
+    userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {         
+            model: 'usuario',
+            key: 'id'
+          }
     },
     value: {
         type: Sequelize.FLOAT,
