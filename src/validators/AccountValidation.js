@@ -1,10 +1,10 @@
-
+import * as Yup from 'yup'
 class AccountValidation {
 
     async validation(data) {
 
         const schema = Yup.object().shape({
-            accoountId: Yup.bool().required(),
+            userId: Yup.bool().required(),
             value: Yup.string().required(),
             cpf: Yup.string().required(),
             cnpj: Yup.string().notRequired(),

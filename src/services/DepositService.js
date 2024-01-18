@@ -4,36 +4,35 @@ import User from '../database/models/User';
 
 class DepositService {
     async create(data) {
-        
         const accountIsValid = await AccountValidation.validation(data)
-        
+
         if (!accountIsValid.success) {
             return { error: accountIsValid.error };
         }
-        
-        const { accountId, value, cpf, cnpj, email } = data.body
+
+        const { userId, value, cpf, cnpj, email } = data
 
         const existingUser = await User.findOne({
-            where: { id: accountId },
+            where: { id: userId },
             where: { cpf },
         });
 
         if (!existingUser) {
             return {
                 error:
-                    "the user associated with this account does not exist. Please try again with a account ID different",
+                    "non-existent user identifier, try again with a different user",
             };
         }
 
         const existingAccountUser = await UserAccount.findOne({
-            where: { accountId },
+            where: { userId },
             where: { cpf }
         })
 
         if (!existingAccountUser) {
             try {
                 await UserAccount.create({
-                   accountId: existingUser.id,
+                   userId: existingUser.id,
                    value,
                     cpf: existingUser.cpf,
                     cnpj,
@@ -48,11 +47,8 @@ class DepositService {
         if (value == '0') {
             return { erro: "The value don't to be zero"}
         }
-
         existingAccountUser.value += value
-
-        return { sucess: true }
-
+        return { sucess: true , message: "Account create successfully!"}
     }
 }
 
