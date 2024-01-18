@@ -8,6 +8,15 @@ connection.authenticate().then(() => {
 })
 
 class DepositController {
+    async index(req, res) {
+        const dataAccount = req.body
+        const account = await DepositService.show(dataAccount)
+
+        return account.success ? 
+        res.status(200).json({success: true, message: {account }}) :
+        res.status(400).json({ success: false, message:  account.error })
+
+    }
     async store(req, res) {
         const deposit = req.body
 
