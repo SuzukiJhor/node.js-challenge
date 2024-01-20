@@ -7,19 +7,27 @@ class DepositService {
   async show(data) {
     const { accountId, cpf } = data;
     const account = await UserAccount.findOne({
-    where: {
+      where: {
         [Op.and]: [{ id: accountId }, { cpf }],
-    },
+      },
     });
 
     if (!account) {
       return {
         success: false,
-        error:
-          "error finding user account",
+        error: "error finding user account",
       };
     }
-    return { success: true, message: account };
+    const user = await User.findOne({
+      where: { id: account.userId },
+    });
+    console.log(user);
+    const { name, lastname } = user;
+    const { value, createdAt, updateAt } = account;
+    return {
+      success: true,
+      data: { value, cpf, name, lastname, createdAt, updateAt },
+    };
   }
   async create(data) {
     const accountIsValid = await AccountValidation.validation(data);
