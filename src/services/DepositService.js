@@ -21,7 +21,7 @@ class DepositService {
     const user = await User.findOne({
       where: { id: account.userId },
     });
-    console.log(user);
+
     const { name, lastname } = user;
     const { value, createdAt, updateAt } = account;
     return {

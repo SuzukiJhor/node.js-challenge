@@ -6,7 +6,7 @@ class TransferValidation {
         const schema = Yup.object().shape({
             sendId: Yup.number().required(),
             receiveId: Yup.number().required(),
-            value: Yup.string().required(),
+            value: Yup.number().required(),
         })
         try {
             await schema.validate(data, { abortEarly: false })
