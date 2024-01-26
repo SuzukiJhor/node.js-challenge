@@ -12,15 +12,11 @@ class TransferService {
 
     const { sendId, receiveId, value } = data;
 
-    const existingSendingAccount = await UserAccount.findOne({
-      where: { userId: sendId },
-    });
+    const sendingAccount = await this.findUserAccount(sendId);
 
-    const existingReceivingAccount = await UserAccount.findOne({
-      where: { userId: receiveId },
-    });
+    const receivingAccount = await this.findUserAccount(receiveId);
 
-    if (!existingSendingAccount || !existingReceivingAccount) {
+    if (!sendingAccount || !receivingAccount) {
       return {
         success: false,
         error:
@@ -28,28 +24,60 @@ class TransferService {
       };
     }
 
-    existingSendingAccount.value -= value;
+    const userReceiving = await this.findUser(receivingAccount.userId);
+    const userSending = await this.findUser(sendingAccount.userId);
 
-    if (existingSendingAccount.value < 0) {
-      existingSendingAccount.value += value;
+    if (userSending.businessman) {
+      return {
+        success: false,
+        error: "Bussinesman does not send value",
+      };
+    }
+
+    sendingAccount.value -= value;
+
+    if (sendingAccount.value < 0) {
+      sendingAccount.value += value;
       return {
         success: false,
         error: "insufficient funds",
       };
     }
+    receivingAccount.value += value;
 
-    existingReceivingAccount.value += value;
+    await sendingAccount.save();
+    await receivingAccount.save();
 
-    await existingSendingAccount.save();
-    await existingReceivingAccount.save();
+    return {
+      success: true,
+      message: `${value} was transferred to user ${userReceiving.name} ${userReceiving.lastname}`,
+    };
+  }
 
-    const userReceiving = await User.findOne({
-        where: {
-          id: existingReceivingAccount.userId,
-        },
-      });
+  /**
+   * Encontra um usuario pelo id.
+   * @param {number} userId
+   * @returns {Promise}
+   */
+  async findUser(userId) {
+    return await User.findOne({
+      where: {
+        id: userId,
+      },
+    });
+  }
 
-    return ({ success: true, message: `${value} was transferred to user ${userReceiving.name} ${userReceiving.lastname}` });
+  /**Encontra uma conta de usuario pelo Id.
+   *
+   * @param {number} accountId
+   * @returns  {Promise}
+   */
+  async findUserAccount(accountId) {
+    return await UserAccount.findOne({
+      where: {
+        userId: accountId,
+      },
+    });
   }
 }
 
