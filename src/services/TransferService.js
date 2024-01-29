@@ -55,6 +55,8 @@ class TransferService {
     }
     receivingAccount.value += value;
 
+    const notification = await this.notificationService();
+
     await sendingAccount.save();
     await receivingAccount.save();
 
@@ -62,6 +64,27 @@ class TransferService {
       success: true,
       message: `${value} was transferred to user ${userReceiving.name} ${userReceiving.lastname}`,
     };
+  }
+
+  async notificationService() {
+    const url = "https://run.mocky.io/v3/54dc2cf1-3add-45b5-b5a9-6bf7e7f1f4a6";
+
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        return {
+          success: false,
+          error: "error when making request" + response.statusText,
+        };
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return {
+        success: false,
+        error: "error when making request" + response.statusText,
+      };
+    }
   }
 
   /**
