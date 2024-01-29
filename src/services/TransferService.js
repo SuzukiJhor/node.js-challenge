@@ -4,7 +4,7 @@ import TransferValidation from "../validators/TransferValidation";
 
 class TransferService {
   async update(data) {
-    const transferIsValid = await TransferValidation.validation(data);
+    const transferIsValid = await TransferValidation.validationData(data);
 
     if (!transferIsValid) {
       return { error: transferIsValid.error };
@@ -31,6 +31,16 @@ class TransferService {
       return {
         success: false,
         error: "Bussinesman does not send value",
+      };
+    }
+
+    const authorizedTransfer =
+      await TransferValidation.validationCodeTransfer();
+
+    if (authorizedTransfer.message !== "Autorizado") {
+      return {
+        success: false,
+        error: "unauthorized transaction",
       };
     }
 

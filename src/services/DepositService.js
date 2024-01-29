@@ -29,6 +29,7 @@ class DepositService {
       data: { value, cpf, name, lastname, createdAt, updateAt },
     };
   }
+
   async create(data) {
     const accountIsValid = await AccountValidation.validation(data);
 
