@@ -1,13 +1,13 @@
-import assert from "assert";
-import { User } from "./src/entities/User.js";
+import assert, { deepStrictEqual } from "assert";
+import  User  from "./src/entities/User.js";
 import Service from "./service.js";
 
-// should throw an error when cpf is less than 11 characters long
+//should throw an error when cpf is less than 11 characters long
 {
   const params = {
-    name: "Ax",
+    name: "alex",
     lastname: "Poatan",
-    cpf: "55555555555",
+    cpf: "5555555555",
     cnpj: "55555555555",
     email: "alex@email.com",
     password: "123456",
@@ -21,15 +21,15 @@ import Service from "./service.js";
 
   assert.rejects(
     () => user.create(params),
-    { message: "user must be higher than 3 " },
-    "it should throw an error with wrong user name"
+    { message: "the CPF number must be greater than 10 digits" },
+    "it should throw an error with wrong cpf number"
   );
-
 
 }
 
 // should save user successfully
 {
+  (async () => {
     const params = {
       name: "Alex",
       lastname: "Poatan",
@@ -39,17 +39,12 @@ import Service from "./service.js";
       password: "123456",
       businessman: false,
     };
-  
+
     const user = new User({
-      onCreate: () => {},
+      onCreate: (msg) => console.log("chamou onCreate", msg),
       service: new Service(),
     });
-  
-    assert.rejects(
-      () => user.create(params),
-      { message: "user must be higher than 3 " },
-      "it should throw an error with wrong user name"
-    );
-  
-    
-  }
+
+    const result = await user.create(params);
+  })();
+}

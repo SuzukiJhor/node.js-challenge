@@ -1,6 +1,6 @@
 import { EventEmitter } from "events";
 
-export class User {
+export default class User {
   constructor({ onCreate, service }) {
     this.service = service;
     this.source = new EventEmitter();
@@ -8,8 +8,8 @@ export class User {
   }
 
   #isValid(data) {
-    if (data.name.length < 3) {
-      throw new Error("user name must be higher than 3");
+    if (data.cpf.length < 11) {
+      throw new Error('the CPF number must be greater than 10 digits');
     }
   }
 
