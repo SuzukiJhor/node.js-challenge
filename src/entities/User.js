@@ -34,7 +34,6 @@ export default class User {
   async create(data) {
     this.#isValid(data);
     const mappedObj = this.#upperCaseStrings(data);
-    console.log({ mappedObj });
     const message = await this.service.save(mappedObj);
     this.source.emit("create", mappedObj);
     return message.toUpperCase();
