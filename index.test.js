@@ -49,6 +49,7 @@ process.on('exit', ()=> callTracker.verify())
 
     //serviceStub = impedir que seja ONLINE
     const spy = callTracker.calls(1)
+
     const serviceStub = {
       async save(params) {
         //espiona a função
@@ -56,15 +57,15 @@ process.on('exit', ()=> callTracker.verify())
         return `${params.id} saved with success!`
       }
     }
-
-    const spyOnCreate = callTracker.calls(1)
-    const onCreate= (msg)=>{
-      spyOnCreate(msg)
+    
+    const fn = (msg)=>{
       assert.deepStrictEqual(msg.id, params.id, 'id should be the same')
     }
-
+    
+    const spyOnCreate = callTracker.calls(fn, 1)
+    
     const user = new User({
-      onCreate: onCreate,
+      onCreate: spyOnCreate,
       service: serviceStub
     });
 
